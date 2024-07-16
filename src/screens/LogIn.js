@@ -1,12 +1,14 @@
+// Componente de inicio de sesión actualizado con nueva paleta de colores y nombre cambiado
+
 import React, { useState } from 'react';
-import { StyleSheet, SafeAreaView, View, Image, Text, TouchableOpacity, TextInput, Alert, } from 'react-native';
+import { StyleSheet, SafeAreaView, View, Image, Text, TouchableOpacity, TextInput, Alert } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import { initializeApp } from 'firebase/app';
 import { firebaseConfig } from '../config/firebase-config';
-import AppLogo from '../../assets/icono.png';
+import AppLogo from '../../assets/logodemitienda.jpg';
 
-export default function LogIn({ navigation }) {
+export default function CustomLoginScreen({ navigation }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -32,134 +34,120 @@ export default function LogIn({ navigation }) {
       });
   };
 
-  const goToSingUp = () => {
-    navigation.navigate('SingUp');
+  const goToSignUp = () => {
+    navigation.navigate('SignUp');
   };
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: '#e8ecf4' }}>
-      <View style={styles.container}>
-        <KeyboardAwareScrollView>
-          <View style={styles.header}>
-            <Image
-              alt="App Logo"
-              resizeMode="contain"
-              style={styles.headerImg}
-              source={AppLogo}
+    <SafeAreaView style={styles.container}>
+      <KeyboardAwareScrollView contentContainerStyle={styles.scrollViewContent}>
+        <View style={styles.header}>
+          <Image
+            alt="App Logo"
+            resizeMode="contain"
+            style={styles.headerImg}
+            source={AppLogo}
+          />
+          <Text style={styles.title}>
+            Bienvenido a <Text style={styles.titleHighlight}>Haus</Text>
+          </Text>
+          <Text style={styles.subtitle}>
+          Explora nuestra exclusiva selección de productos
+          </Text>
+        </View>
+        <View style={styles.form}>
+          <View style={styles.input}>
+            <Text style={styles.inputLabel}>Correo electrónico</Text>
+            <TextInput
+              autoCapitalize="none"
+              autoCorrect={false}
+              clearButtonMode="while-editing"
+              keyboardType="email-address"
+              onChangeText={text => setEmail(text)}
+              placeholder="sanpiter@gmail.com"
+              placeholderTextColor="#718096"
+              style={styles.inputControl}
             />
-            <Text style={styles.title}>
-              Iniciar Sesión <Text style={{ color: '#075eec' }}>E-Shop</Text>
-            </Text>
-            <Text style={styles.subtitle}>
-              Accede a nuestra gran catologo de productos
-            </Text>
           </View>
-          <View style={styles.form}>
-            <View style={styles.input}>
-              <Text style={styles.inputLabel}>Correo electrónico</Text>
-              <TextInput
-                autoCapitalize="none"
-                autoCorrect={false}
-                clearButtonMode="while-editing"
-                keyboardType="email-address"
-                onChangeText={text => setEmail(text)}
-                placeholder="juan@ejemplo.com"
-                placeholderTextColor="#6b7280"
-                style={styles.inputControl}
-              />
-            </View>
-            <View style={styles.input}>
-              <Text style={styles.inputLabel}>Contraseña</Text>
-              <TextInput
-                autoCorrect={false}
-                clearButtonMode="while-editing"
-                onChangeText={text => setPassword(text)}
-                placeholder="********"
-                placeholderTextColor="#6b7280"
-                style={styles.inputControl}
-                secureTextEntry={true}
-              />
-            </View>
-            <View style={styles.formAction}>
-              <TouchableOpacity onPress={handleLogInAccount}>
-                <View style={styles.btn}>
-                  <Text style={styles.btnText}>Iniciar sesión</Text>
-                </View>
-              </TouchableOpacity>
-            </View>
-            <Text style={styles.formLink}>¿Olvidaste tu contraseña?</Text>
+          <View style={styles.input}>
+            <Text style={styles.inputLabel}>Contraseña</Text>
+            <TextInput
+              autoCorrect={false}
+              clearButtonMode="while-editing"
+              onChangeText={text => setPassword(text)}
+              placeholder="********"
+              placeholderTextColor="#718096"
+              style={styles.inputControl}
+              secureTextEntry={true}
+            />
           </View>
-        </KeyboardAwareScrollView>
-        <TouchableOpacity
-          onPress={() => {
-            // handle link
-          }}
-          style={{ marginTop: 'auto' }}
-        >
-          <Text style={styles.formFooter}>
+          <TouchableOpacity onPress={handleLogInAccount}>
+            <View style={styles.btn}>
+              <Text style={styles.btnText}>Iniciar sesión</Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => {}}>
+            <Text style={styles.forgotPassword}>¿Olvidaste tu contraseña?</Text>
+          </TouchableOpacity>
+        </View>
+        <TouchableOpacity onPress={goToSignUp} style={styles.signupLink}>
+          <Text style={styles.signupLinkText}>
             ¿No tienes una cuenta?{' '}
-            <Text onPress={goToSingUp} style={{ textDecorationLine: 'underline' }}>Regístrate</Text>
+            <Text style={styles.signupLinkHighlight}>Regístrate</Text>
           </Text>
         </TouchableOpacity>
-      </View>
+      </KeyboardAwareScrollView>
     </SafeAreaView>
   );
 }
- 
+
 const styles = StyleSheet.create({
   container: {
-    paddingVertical: 24,
-    paddingHorizontal: 0,
+    flex: 1,
+    backgroundColor: '#f7fafc',
+    paddingHorizontal: 24,
+  },
+  scrollViewContent: {
     flexGrow: 1,
-    flexShrink: 1,
-    flexBasis: 0,
+    justifyContent: 'center',
+  },
+  header: {
+    alignItems: 'center',
+    marginBottom: 24,
+  },
+  headerImg: {
+    width: 140,
+    height: 140,
+    marginBottom: 24,
   },
   title: {
     fontSize: 27,
     fontWeight: '700',
-    color: '#1D2A32',
+    color: '#1a202c',
     marginBottom: 6,
+  },
+  titleHighlight: {
+    color: '#3182ce',
   },
   subtitle: {
     fontSize: 15,
     fontWeight: '500',
-    color: '#929292',
-  },
-  header: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginVertical: 36,
-  },
-  headerImg: {
-    borderRadius: 30,
-    width: 140,
-    height: 140,
-    alignSelf: 'center',
-    marginBottom: 36,
+    color: '#4a5568',
+    textAlign: 'center',
+    marginBottom: 24,
   },
   form: {
-    marginBottom: 24,
-    paddingHorizontal: 24,
-    flexGrow: 1,
-    flexShrink: 1,
-    flexBasis: 0,
-  },
-  formAction: {
-    marginTop: 4,
-    marginBottom: 16,
-  },
-  formLink: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#075eec',
-    textAlign: 'center',
-  },
-  formFooter: {
-    fontSize: 15,
-    fontWeight: '600',
-    color: '#222',
-    textAlign: 'center',
-    letterSpacing: 0.15,
+    backgroundColor: '#fff',
+    padding: 24,
+    borderRadius: 12,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
   input: {
     marginBottom: 16,
@@ -167,36 +155,46 @@ const styles = StyleSheet.create({
   inputLabel: {
     fontSize: 17,
     fontWeight: '600',
-    color: '#222',
+    color: '#2d3748',
     marginBottom: 8,
   },
   inputControl: {
     height: 50,
-    backgroundColor: '#fff',
+    backgroundColor: '#edf2f7',
     paddingHorizontal: 16,
     borderRadius: 12,
     fontSize: 15,
     fontWeight: '500',
-    color: '#222',
-    borderWidth: 1,
-    borderColor: '#C9D3DB',
-    borderStyle: 'solid',
+    color: '#2d3748',
   },
   btn: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: '#3182ce',
     borderRadius: 30,
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderWidth: 1,
-    backgroundColor: '#075eec',
-    borderColor: '#075eec',
+    paddingVertical: 12,
+    alignItems: 'center',
   },
   btnText: {
     fontSize: 18,
-    lineHeight: 26,
     fontWeight: '600',
     color: '#fff',
+  },
+  forgotPassword: {
+    marginTop: 16,
+    textAlign: 'center',
+    color: '#3182ce',
+    fontWeight: '600',
+  },
+  signupLink: {
+    marginTop: 24,
+    alignItems: 'center',
+  },
+  signupLinkText: {
+    fontSize: 15,
+    color: '#2d3748',
+    fontWeight: '600',
+  },
+  signupLinkHighlight: {
+    color: '#3182ce',
+    textDecorationLine: 'underline',
   },
 });
